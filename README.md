@@ -22,6 +22,9 @@
     price DECIMAL(10,2) CHECK (price >= 0),
     stock INTEGER DEFAULT 0 CHECK (stock >= 0)
    );"
+
+   # After creating the database
+    psql -U postgres -d inventory -f seed.sql
    ```
 
 ### Important Documentation
