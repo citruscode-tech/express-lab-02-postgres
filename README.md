@@ -11,21 +11,51 @@
    psql --version  # Should show 14.x+
    ```
 
-2. Create Products Table:
+2. ### **Database Setup Guide**
 
-   ```bash
-   psql -U postgres -c "CREATE DATABASE inventory;"
-   psql -U postgres -d inventory -c "
-   CREATE TABLE products (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    price DECIMAL(10,2) CHECK (price >= 0),
-    stock INTEGER DEFAULT 0 CHECK (stock >= 0)
-   );"
+   1. Create PostgreSQL Role (If Missing)
 
-   # After creating the database
-    psql -U postgres -d inventory -f seed.sql
-   ```
+      ```bash
+      psql -d template1 -c "CREATE ROLE postgres WITH SUPERUSER LOGIN;"
+      ```
+
+   2. Create Database
+
+      ```bash
+      createdb -U postgres inventory
+      ```
+
+   3. Create Products Table
+
+      ```bash
+      psql -U postgres -d inventory -c "
+      CREATE TABLE products (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      price DECIMAL(10,2) CHECK (price >= 0),
+      stock INTEGER DEFAULT 0 CHECK (stock >= 0)
+      );"
+      ```
+
+   4. Seed Sample Data
+
+      ```bash
+      # After creating the database
+      psql -U postgres -d inventory -f seed.sql
+      ```
+
+### ✅ Verification Commands
+
+```bash
+# Check database connection
+psql -U postgres -d inventory -c "SELECT 1 AS connection_test;"
+
+# Verify table structure
+psql -U postgres -d inventory -c "\d products"
+
+# View seed data
+psql -U postgres -d inventory -c "SELECT * FROM products;"
+```
 
 ### Important Documentation
 
