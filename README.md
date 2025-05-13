@@ -78,11 +78,11 @@ psql -U postgres -d inventory -c "SELECT * FROM products;"
 4.  Configure Environment (create **.env** file)
 
     ```bash
-    PG_HOST=localhost
-    PG_USER=postgres
-    PG_PASSWORD=password
-    PG_DATABASE=inventory
-    PG_PORT=5432
+    process.env.PG_HOST=localhost
+    process.env.PG_USER=postgres
+    process.env.PG_PASSWORD=password
+    process.env.PG_DATABASE=inventory
+    process.env.PG_PORT=5432
     ```
 
 ## 🚀 Running the Server
@@ -206,7 +206,7 @@ psql -U postgres -d inventory -c "SELECT * FROM products;"
 Collection Setup
 
 1. Open Postman
-2. Create new collection: Express Routing Lab
+2. Create new collection: Postgres Routing Lab
 3. Add these requests:
    - **GET** http://localhost:3000/health (Verify database connection)
    - **GET** http://localhost:3000/products (Empty array vs populated results)
@@ -214,3 +214,19 @@ Collection Setup
    - **POST** http://localhost:3000/products (Missing name/price → 400 error)
    - **POST** http://localhost:3000/products/1 (Update price only)
    - **DELETE** http://localhost:3000/products/1 (Verify deletion with GET after)
+
+## 🧪 Automated Testing with Jasmine
+
+Watch Mode (Continuous Testing):
+
+```bash
+npm run test:watch
+```
+
+- Automatically re-runs tests when files change with every save
+- Ensure that the database for this project is correct -- **inventory**
+- In your terminal ensure that there are no test with an F (failing)
+  - At the bottom it should say:
+  ```bash
+  15 specs, 0 failures # When all test specs pass
+  ```

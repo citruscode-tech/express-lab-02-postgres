@@ -12,6 +12,25 @@ const pool = new Pool({
   port: process.env.PG_PORT,
 });
 
+// Health Check Endpoint
+app.get("/health", async (req, res) => {
+  try {
+    await pool.query("SELECT 1");
+    res.json({ status: "ok", database: "connected" });
+  } catch (err) {
+    res.status(500).json({ status: "error", database: "disconnected" });
+  }
+});
+
+app.get("/", (req, res) => {
+  res
+    .json({
+      "Express & Postgres Lab - Home Page":
+        "Welcome to the Express & Postgres Lab!",
+    })
+    .status(200);
+});
+
 // 🎯 STUDENT TASKS: Implement these routes
 // ------------------------------------------------
 
@@ -60,3 +79,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+module.exports = app;
