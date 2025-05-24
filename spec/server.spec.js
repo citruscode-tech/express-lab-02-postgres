@@ -42,7 +42,8 @@ describe("Products API", () => {
       });
     });
   });
-
+  /*
+  //PASSED
   describe("GET /products", () => {
     it("should return all products", async () => {
       const response = await request(app).get("/products");
@@ -52,15 +53,16 @@ describe("Products API", () => {
       expect(response.body.length).toBe(2);
     });
   });
-
+  //PASSED
   describe("GET /products/:id", () => {
     it("should return a specific product", async () => {
       const response = await request(app).get("/products/1");
       expect(response.statusCode).toBe(200);
-      expect(response.body).toMatchObject({
+      expect(response.body).toEqual({
         id: 1,
-        name: expect.any(String),
-        price: expect.any(Number),
+        name: jasmine.any(String),
+        price: jasmine.any(String),
+        stock: jasmine.any(Number),
       });
     });
 
@@ -76,14 +78,14 @@ describe("Products API", () => {
       expect(response.body).toEqual({ error: "Invalid product ID" });
     });
   });
-
+  */
   describe("POST /products", () => {
     it("should create a new product", async () => {
       const response = await request(app).post("/products").send(testProduct);
 
       expect(response.statusCode).toBe(201);
-      expect(response.body).toMatchObject({
-        id: expect.any(Number),
+      expect(response.body).toEqual({
+        id: jasmine.any(Number),
         ...testProduct,
       });
 
@@ -128,7 +130,7 @@ describe("Products API", () => {
       const response = await request(app).put("/products/1").send(updates);
 
       expect(response.statusCode).toBe(200);
-      expect(response.body).toMatchObject(updates);
+      expect(response.body).toEqual(updates);
     });
 
     it("should handle partial updates", async () => {

@@ -14,6 +14,7 @@ const pool = new Pool({
 
 // Health Check Endpoint
 app.get("/health", async (req, res) => {
+  const health = req
   try {
     await pool.query("SELECT 1");
     res.json({ status: "ok", database: "connected" });
@@ -36,14 +37,33 @@ app.get("/", (req, res) => {
 
 // GET all products
 app.get("/products", async (req, res) => {
-  // TODO: Query database and return all products
+  const products = await pool.query("select * from products")
+  res.send(products.rows)
 });
 
 // GET single product
 app.get("/products/:id", async (req, res) => {
   // TODO: 1. Get ID from params
+  //Destructure req.param object to extract req.param.id 
+  //Preferable version for deeply nested object
+  const {params: {id}} = req;
+  //Alternative version
+  //const {productId} = req.params;
   //       2. Query database
+  try {
+    const product = await pool.query(`Select * from products where id = ${id}`)
   //       3. Handle not found case
+    const {rows} = product
+      console.log(rows) 
+    if(rows.length > 0) {
+      res.send(rows[0])
+    } else {
+      res.status(404).json({error: "Product not found"})
+    }
+  } catch(err) {
+    res.status(400).json({error: "Invalid product ID"})
+  }
+  
 });
 
 // POST create product
